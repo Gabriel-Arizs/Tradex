@@ -1,13 +1,23 @@
-import First from '../components/First'
-import { ServicesGrid } from '../components/Home/ServicesGrid'
-import StatisticsBar from '../components/Home/StatisticsBar'
+import Hero from '../components/Hero'
+import ChooseUs from '../components/Home/ChooseUs'
+import CommunityCTA from '../components/Home/CommunityCTA'
+import Footer from '../components/Home/Footer'
+import GetStarted from '../components/Home/GetStarted'
+import PricingGrid from '../components/Home/PricingGrid'
+import ServicesGrid from '../components/Home/ServicesGrid'
+import { StatsBar } from '../components/Home/StatsBar'
 
 export function Home() {
   return (
     <>
-      <First />
-      <StatisticsBar />
+      <Hero />
+      <StatsBar />
       <ServicesGrid />
+      <ChooseUs />
+      <PricingGrid />
+      <GetStarted />
+      <CommunityCTA />
+      <Footer />
     </>
   )
 }

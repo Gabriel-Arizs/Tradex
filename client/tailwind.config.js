@@ -6,20 +6,8 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        primary: '#13bdec',
-        'background-light': '#f6f8f6',
-        'background-dark': '#102216'
-      },
-      fontFamily: {
-        display: ['Manrope']
-      },
-      borderRadius: {
-        DEFAULT: '0.25rem',
-        lg: '0.5rem',
-        xl: '0.75rem',
-        full: '9999px'
-      }
+      // Dejamos esto vacío o solo con lo que HeroUI necesite heredar,
+      // la v4 prioriza lo que pusiste en el CSS @theme.
     }
   },
   plugins: [
