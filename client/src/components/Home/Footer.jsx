@@ -1,4 +1,14 @@
+import FacebookIcon from '../Icons/FacebookIcon'
+import { InstagramIcon } from '../Icons/InstagramIcon'
+import XIcon from '../Icons/XIcon'
 import FooterColumn from '../ui/FooterColumn'
+import { ChartNetwork } from 'lucide-react'
+
+const socialLinks = [
+  { name: 'Facebook', icon: <FacebookIcon size={24} />, link: '#' },
+  { name: 'X', icon: <XIcon size={18} />, link: '#' },
+  { name: 'Instagram', icon: <InstagramIcon size={24} />, link: '#' }
+]
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -11,7 +21,9 @@ export function Footer() {
           <div className='flex flex-col gap-6 lg:col-span-2'>
             <div className='flex items-center gap-3'>
               <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/20'>
-                <span className='material-symbols-outlined text-xl font-bold'>query_stats</span>
+                <span className='text-xl font-bold'>
+                  <ChartNetwork />
+                </span>
               </div>
               <span className='text-xl font-black tracking-tight text-white'>
                 TRADEX<span className='text-accent'>.</span>
@@ -22,14 +34,17 @@ export function Footer() {
               seguridad de tus fondos.
             </p>
 
+            {/* Redes Sociales con propiedades uniformes */}
             <div className='flex gap-4'>
-              {['facebook', 'X', 'instagram', 'linkedin'].map(social => (
+              {socialLinks.map(social => (
                 <a
-                  key={social}
-                  href='#'
-                  className='h-10 w-10 flex items-center justify-center rounded-full bg-blue-900/20 border border-blue-800/50 text-slate-400 hover:text-accent hover:border-accent transition-all'
+                  key={social.name}
+                  href={social.link}
+                  aria-label={social.name}
+                  className='h-10 w-10 flex items-center justify-center rounded-full bg-blue-900/20 border border-blue-800/50 text-slate-400 hover:text-accent hover:border-accent hover:bg-blue-900/40 transition-all duration-300'
                 >
-                  <span className='material-symbols-outlined text-xl'>share</span>
+                  {/* El color se controla vía CSS gracias a fill="currentColor" */}
+                  {social.icon}
                 </a>
               ))}
             </div>

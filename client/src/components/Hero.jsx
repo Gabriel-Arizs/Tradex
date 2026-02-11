@@ -1,3 +1,4 @@
+import { CirclePlay, TrendingUp } from 'lucide-react'
 export function Hero() {
   return (
     <section className='relative flex min-h-[85vh] items-center justify-center px-6 lg:px-10 overflow-hidden bg-dark-navy'>
@@ -33,7 +34,7 @@ export function Hero() {
               Empieza Ahora
             </button>
             <button className='flex items-center gap-2 rounded-xl border border-slate-700 bg-deep-blue/50 px-8 py-4 text-lg font-bold text-white hover:bg-deep-blue transition-all'>
-              <span className='material-symbols-outlined text-accent'>play_circle</span>
+              <CirclePlay color='#06B6D4' size={24} />
               Ver Demo
             </button>
           </div>
@@ -41,13 +42,13 @@ export function Hero() {
 
         <div className='hidden lg:block relative'>
           <div className='relative rounded-2xl border border-blue-900/30 bg-deep-blue p-4 shadow-2xl shadow-primary/10'>
-            <div className='absolute -top-6 -left-6 bg-accent/20 p-4 rounded-xl backdrop-blur-md border border-accent/30'>
-              <span className='material-symbols-outlined text-accent scale-150'>trending_up</span>
+            <div className='absolute -top-6 -left-6 z-10 bg-accent/20 p-4 rounded-xl backdrop-blur-md border border-accent/30'>
+              <TrendingUp color='#06B6D4' size={24} />
             </div>
             <img
-              src='/dashboard-preview.png'
-              alt='Trading Dashboard'
-              className='w-full rounded-xl border border-slate-800'
+              src='../../public/hero.jpg'
+              alt='Trading hero image'
+              className='w-full rounded-xl object-cover border border-slate-800 brightness-[85%] transition-transform duration-500 hover:scale-[110%]'
             />
           </div>
         </div>

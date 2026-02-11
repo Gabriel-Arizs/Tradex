@@ -1,27 +1,28 @@
 import ReasonCard from '../ui/ReasonCard'
+import { Gauge, Headset, ShieldCheck, ShieldPlus } from 'lucide-react'
 
 const REASONS = [
   {
     id: 'security',
-    icon: 'security',
+    icon: <ShieldPlus />,
     title: 'Seguridad',
     description: 'Cifrado de grado militar y almacenamiento en frío para proteger tus activos digitales 24/7.'
   },
   {
     id: 'tech',
-    icon: 'speed',
+    icon: <Gauge />,
     title: 'Tecnología',
     description: 'Motores de emparejamiento de latencia ultrabaja capaces de procesar millones de órdenes por segundo.'
   },
   {
     id: 'support',
-    icon: 'headset_mic',
+    icon: <Headset />,
     title: 'Soporte',
     description: 'Equipo multilingüe de expertos financieros disponibles en tiempo real para resolver cualquier duda.'
   },
   {
     id: 'regulation',
-    icon: 'verified_user',
+    icon: <ShieldCheck />,
     title: 'Regulación',
     description: 'Operamos bajo los más estrictos marcos regulatorios internacionales para tu tranquilidad legal.'
   }

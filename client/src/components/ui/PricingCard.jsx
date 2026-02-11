@@ -1,3 +1,5 @@
+import { CircleCheck, CircleX } from 'lucide-react'
+
 export function PricingCard({ plan, price, description, features, buttonText, isPopular = false }) {
   return (
     <div
@@ -23,10 +25,8 @@ export function PricingCard({ plan, price, description, features, buttonText, is
       <ul className='mb-10 flex flex-1 flex-col gap-4'>
         {features.map((f, idx) => (
           <li key={idx} className={`flex items-center gap-3 ${f.included ? 'text-slate-200' : 'text-slate-600'}`}>
-            <span
-              className={`material-symbols-outlined text-xl ${f.included ? (isPopular ? 'text-accent' : 'text-primary') : ''}`}
-            >
-              {f.included ? 'check_circle' : 'cancel'}
+            <span className={`text-xl ${f.included ? (isPopular ? 'text-accent' : 'text-primary') : ''}`}>
+              {f.included ? <CircleCheck /> : <CircleX />}
             </span>
             <span className={`text-sm ${!f.included ? 'line-through' : ''}`}>{f.text}</span>
           </li>

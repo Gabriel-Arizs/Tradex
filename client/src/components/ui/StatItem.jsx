@@ -1,3 +1,5 @@
+import { cloneElement } from 'react'
+
 export function StatItem({ label, value, trend, icon, iconColor = 'text-primary' }) {
   return (
     <div className='flex flex-col gap-1 group'>
@@ -7,7 +9,15 @@ export function StatItem({ label, value, trend, icon, iconColor = 'text-primary'
       <div className='flex items-baseline gap-2'>
         <span className='text-3xl font-black text-white tabular-nums tracking-tight'>{value}</span>
         {trend && <span className='text-sm font-bold text-accent'>{trend}</span>}
-        {icon && <span className={`material-symbols-outlined ${iconColor} text-sm`}>{icon}</span>}
+
+        {/* Renderizado inteligente del icono de Lucide */}
+        {icon &&
+          typeof icon !== 'string' &&
+          cloneElement(icon, {
+            size: 16,
+            className: `${iconColor} opacity-80 group-hover:opacity-100 transition-opacity`,
+            strokeWidth: 2.5
+          })}
       </div>
     </div>
   )

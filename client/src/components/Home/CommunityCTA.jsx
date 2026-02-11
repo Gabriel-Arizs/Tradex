@@ -1,5 +1,6 @@
 import TelegramIcon from '../Icons/TelegramIcon'
 import CommunityStat from '../ui/CommunityStat'
+import { Send } from 'lucide-react'
 
 const STATS = [
   { label: 'Señales', value: 'Trading Real-time', offset: false },
@@ -30,8 +31,8 @@ export function CommunityCTA() {
               </p>
 
               <button className='group inline-flex items-center gap-3 rounded-2xl bg-white px-8 py-4 text-lg font-bold text-dark-navy transition-all hover:bg-accent hover:text-white hover:scale-105 active:scale-95'>
-                <span className='material-symbols-outlined transition-transform group-hover:translate-x-1 group-hover:-translate-y-1'>
-                  send
+                <span className='transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 duration-300'>
+                  <Send />
                 </span>
                 Unirse Ahora
               </button>
