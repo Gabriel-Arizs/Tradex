@@ -24,7 +24,7 @@ export const registrarAdmin = async (req, res) => {
 
 };
 
-export const loginAdmin = async (req, res) => {
+export const login = async (req, res) => {
 
   const { usuario, password } = req.body;
 
