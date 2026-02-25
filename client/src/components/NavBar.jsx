@@ -25,7 +25,10 @@ export function NavBar({ handleClick }) {
   }, [isDarkMode])
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b border-blue-900/30 bg-dark-navy/80 backdrop-blur-md'>
+    <header
+      className='sticky top-0 z-50 w-full border-b border-blue-900/30 bg-dark-navy
+    bg-linear-to-tr from-blue-800/60 via-deep-blue/90  to-blue-900/30'
+    >
       <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10'>
         <div className='flex items-center gap-3'>
           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white'>
