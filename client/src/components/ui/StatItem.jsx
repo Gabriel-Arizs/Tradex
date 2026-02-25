@@ -10,7 +10,6 @@ export function StatItem({ label, value, trend, icon, iconColor = 'text-primary'
         <span className='text-3xl font-black text-white tabular-nums tracking-tight'>{value}</span>
         {trend && <span className='text-sm font-bold text-accent'>{trend}</span>}
 
-        {/* Renderizado inteligente del icono de Lucide */}
         {icon &&
           typeof icon !== 'string' &&
           cloneElement(icon, {

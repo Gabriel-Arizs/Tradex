@@ -20,6 +20,24 @@
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+  }
+  @keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  @keyframes button-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+
+  --animate-twinkle: twinkle var(--d, 4s) ease-in-out infinite;
+  --animate-ripple: ripple 600ms linear;
+  
+  --animate-button-pulse: button-pulse 3s ease-in-out infinite;
 }
 
 @layer base {
