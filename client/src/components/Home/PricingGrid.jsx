@@ -2,6 +2,13 @@ import PricingCard from '../ui/PricingCard'
 import { SectionHeader } from '../ui/SectionHeader'
 
 export function PricingGrid() {
+  // Estados iniciales para la animación de entrada
+  const variants = {
+    left: { opacity: 0, x: -60 },
+    center: { opacity: 0, y: 60, scale: 0.9 },
+    right: { opacity: 0, x: 60 }
+  }
+
   return (
     <section className='py-24 px-6 lg:px-10 bg-dark-navy relative overflow-hidden'>
       {/* Glow decorativo de fondo */}
@@ -14,8 +21,13 @@ export function PricingGrid() {
           accentColor='bg-accent'
         />
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch mt-10'>
+        {/* El contenedor necesita perspective para el efecto 3D */}
+        <div
+          className='grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch mt-16'
+          style={{ perspective: '1200px' }}
+        >
           <PricingCard
+            customVariant={variants.left}
             plan='Explorer'
             price='0'
             isPopular={false}
@@ -31,6 +43,7 @@ export function PricingGrid() {
           />
 
           <PricingCard
+            customVariant={variants.center}
             plan='Pro Trader'
             price='49'
             isPopular={true}
@@ -46,6 +59,7 @@ export function PricingGrid() {
           />
 
           <PricingCard
+            customVariant={variants.right}
             plan='Elite Institutional'
             price='199'
             isPopular={false}
