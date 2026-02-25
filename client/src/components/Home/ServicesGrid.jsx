@@ -1,6 +1,6 @@
 import ServiceCard from '../ui/ServiceCard'
 import { BrainCog, ChartNetwork, ChartPie } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, scale } from 'framer-motion'
 
 const SERVICES = [
   {
@@ -31,8 +31,22 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2 // Retraso entre cada card
+      staggerChildren: 0.2
     }
+  }
+}
+
+const staticFadeVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 1.1,
+    filter: 'blur(8px)'
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: 'easeOut' }
   }
 }
 
@@ -52,11 +66,11 @@ export function ServicesGrid() {
       variants={containerVariants}
       initial='hidden'
       whileInView='visible'
-      viewport={{ once: true, amount: 0.2, margin: '-100px' }}
+      viewport={{ once: true, amount: 0.4, margin: '-100px' }}
     >
       <div className='mx-auto max-w-7xl'>
-        {/* Animamos el encabezado por separado para que tenga estilo */}
-        <motion.div variants={itemVariants} className='mb-16 flex flex-col items-center text-center'>
+        {/* Usamos staticFadeVariants aquí para que no se mueva */}
+        <motion.div variants={staticFadeVariants} className='mb-16 flex flex-col items-center text-center'>
           <h2 className='mb-4 text-4xl font-black tracking-tight text-white md:text-5xl'>Servicios Especializados</h2>
           <div className='h-1.5 w-20 rounded-full bg-primary mb-8 shadow-lg shadow-primary/20'></div>
           <p className='max-w-2xl text-lg text-slate-400 leading-relaxed'>
@@ -66,7 +80,7 @@ export function ServicesGrid() {
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
           {SERVICES.map((service, index) => (
-            // 3. Envolvemos cada card en un motion.div que hereda el stagger
+            // Seguimos usando itemVariants aquí para mantener el movimiento en las cards
             <motion.div key={index} variants={itemVariants}>
               <ServiceCard {...service} />
             </motion.div>
