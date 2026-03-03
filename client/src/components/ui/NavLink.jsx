@@ -1,17 +1,19 @@
 import React from 'react'
 import { NavLink as NavLinkReactRouter } from 'react-router-dom'
 
-export function NavLink({ to, children, className, ...props }) {
-  const classNav = isActive =>
-    isActive ? 'text-violet-600 dark:text-violet-400' : 'hover:text-violet-600 dark:hover:text-violet-400'
+export function NavLink({ to, children, className = '', ...props }) {
+  // Colores TRADEX por defecto
+  const activeStyles = 'text-accent'
+  const inactiveStyles = 'text-slate-400 hover:text-accent'
 
   return (
     <NavLinkReactRouter
       {...props}
-      className={({ isActive }) => {
-        return `${classNav(isActive)} ${className}`
-      }}
       to={to}
+      className={({ isActive }) => {
+        const stateClass = isActive ? activeStyles : inactiveStyles
+        return `${stateClass} ${className} transition-colors`.trim()
+      }}
     >
       {children}
     </NavLinkReactRouter>

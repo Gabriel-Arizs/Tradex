@@ -6,6 +6,7 @@ import GetStarted from '../components/Home/GetStarted'
 import PricingGrid from '../components/Home/PricingGrid'
 import ServicesGrid from '../components/Home/ServicesGrid'
 import { StatsBar } from '../components/Home/StatsBar'
+import RegistrationPage from './RegistrationPage'
 
 export function Home() {
   return (
@@ -17,7 +18,6 @@ export function Home() {
       <PricingGrid />
       <GetStarted />
       <CommunityCTA />
-      <Footer />
     </>
   )
 }
