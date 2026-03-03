@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { Suspense } from 'react'
 import { Toaster } from 'sonner'
 import NavBar from './components/NavBar'
+import Footer from './components/Home/Footer'
 
 function App() {
   return (
@@ -12,13 +13,10 @@ function App() {
       </header>
       <main className='bg-slate-900'>
         <Suspense fallback={<h1>Loading...</h1>}>
-          <section>
-            <div>
-              <Outlet />
-            </div>
-          </section>
+          <Outlet />
         </Suspense>
       </main>
+      <Footer />
       <Toaster richColors />
     </>
   )

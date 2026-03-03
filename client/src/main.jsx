@@ -5,7 +5,8 @@ import App from './App.jsx'
 import './index.css'
 
 // Definimos los Lazy Components aquí o en archivos separados
-const LazyHome = lazy(() => import('./pages/Home.jsx'))
+const LazyHomePage = lazy(() => import('./pages/Home.jsx'))
+const LazyRegisterPage = lazy(() => import('./pages/RegistrationPage.jsx'))
 
 const router = createBrowserRouter([
   {
@@ -14,14 +15,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <LazyHome />
-      }
-      /* Aquí añadirías más rutas hijas:
+        element: <LazyHomePage />
+      },
       {
-        path: "contacto",
-        element: <Contacto />,
-      }, 
-      */
+        path: 'register',
+        element: <LazyRegisterPage />
+      }
     ]
   }
 ])
