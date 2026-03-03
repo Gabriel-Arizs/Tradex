@@ -25,11 +25,9 @@ export function NavBar({ handleClick }) {
   }, [isDarkMode])
 
   return (
-    <header
-      className='sticky top-0 z-50 w-full border-b border-blue-900/30 bg-dark-navy
-    bg-linear-to-tr from-blue-800/60 via-deep-blue/90  to-blue-900/30'
-    >
+    <header className='sticky top-0 z-50 w-full border-b border-blue-900/30 bg-dark-navy bg-linear-to-tr from-blue-800/60 via-deep-blue/90 to-blue-900/30 backdrop-blur-md'>
       <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10'>
+        {/* Logo */}
         <div className='flex items-center gap-3'>
           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white'>
             <span className='font-bold'>
@@ -41,18 +39,32 @@ export function NavBar({ handleClick }) {
           </span>
         </div>
 
+        {/* Navegación - Usando tu NavLink personalizado */}
         <nav className='hidden flex-1 justify-center gap-8 md:flex'>
-          {['Mercados', 'Servicios', 'Precios', 'Sobre Nosotros'].map(item => (
-            <a key={item} className='text-sm font-semibold text-slate-400 hover:text-accent transition-colors' href='#'>
-              {item}
-            </a>
+          {[
+            { name: 'Mercados', path: '/mercados' },
+            { name: 'Servicios', path: '/servicios' },
+            { name: 'Precios', path: '/precios' },
+            { name: 'Sobre Nosotros', path: '/nosotros' }
+          ].map(item => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className='text-sm font-semibold' // Solo clases estructurales
+            >
+              {item.name}
+            </NavLink>
           ))}
         </nav>
 
+        {/* Botón de Acción */}
         <div className='flex items-center gap-4'>
-          <button className='rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-blue-500 transition-all'>
+          <NavLink
+            to='/register'
+            className='rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-blue-500 hover:text-white transition-all'
+          >
             Empieza Ahora
-          </button>
+          </NavLink>
         </div>
       </div>
     </header>
