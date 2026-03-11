@@ -1,20 +1,20 @@
 import db from '../database/db.js'
 import bcrypt from 'bcrypt'
 class User {
-
-  static async registrarUsuario({ usuario, password, id_rol, correo }) {
+  static async registerUser({ username, password, role_id, email }) {
     try {
-      const [rows] = await db.query('SELECT id_user FROM usuarios WHERE correo = ?', [correo])
+      // Check if user already exists
+      const [rows] = await db.query('SELECT user_id FROM users WHERE email = ?', [email])
 
       if (rows.length > 0) {
-        throw new Error('Correo ya registrado')
+        throw new Error('Email already registered')
       }
 
       const hashedPassword = await bcrypt.hash(password, 10)
 
-      // Insertar el nuevo usuario
-      const sql = 'INSERT INTO usuarios (usuario, password, id_rol, correo) VALUES (?, ?, ?, ?)'
-      const [result] = await db.query(sql, [usuario, hashedPassword, id_rol, correo])
+      // Insert the new user
+      const sql = 'INSERT INTO users (username, password, role_id, email) VALUES (?, ?, ?, ?)'
+      const [result] = await db.query(sql, [username, hashedPassword, role_id, email])
 
       return result
     } catch (error) {
@@ -23,30 +23,23 @@ class User {
   }
 
   static async login(usuario, password) {
-
-    const [rows] = await db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
+    const [rows] = await db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario])
 
     if (rows.length === 0) {
-      return { error: 'Usuario no encontrado' };
+      return { error: 'Usuario no encontrado' }
     }
 
-    const user = rows[0];
+    const user = rows[0]
 
-
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password)
 
     if (!isMatch) {
-      return { error: 'Contraseña incorrecta' };
+      return { error: 'Contraseña incorrecta' }
     }
 
-
-    const { password: _, ...userWithoutPassword } = user;
-    return { success: true, user: userWithoutPassword };
+    const { password: _, ...userWithoutPassword } = user
+    return { success: true, user: userWithoutPassword }
   }
-
-
-
-
 }
 
 export default User

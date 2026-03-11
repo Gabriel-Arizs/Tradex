@@ -1,23 +1,23 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
 
-export const registrarAdmin = async (req, res) => {
-  const { usuario, password, correo } = req.body
+export const registerAdmin = async (req, res) => {
+  const { username, password, email } = req.body
 
   try {
-    const resultado = await User.registrarUsuario({
-      usuario,
+    const result = await User.registerUser({
+      username,
       password,
-      id_rol: 1,
-      correo
+      role_id: 1,
+      email
     })
 
     return res.status(201).json({
-      message: 'Administrador creado exitosamente',
-      id: resultado.insertId
+      message: 'Administrator created successfully',
+      id: result.insertId
     })
   } catch (error) {
-    return res.status(400).json({ error: error.message })
+    return res.status(400).json({ message: 'something went wrong', error: error.message })
   }
 }
 
