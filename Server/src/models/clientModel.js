@@ -1,56 +1,45 @@
 import db from '../database/db.js'
 
 class Client {
-  static async regisClient({
-    nombre,
-    apellido,
-    email,
-    telefono,
-    pais,
-    id_plan,
-    plataforma,
-    monto,
-    comprobante,
-    metodo_pago
-  }) {
+  static async registerClient({ name, lastName, email, phone, country, planId, platform, receiptUrl, paymentMethod }) {
     let connection
     try {
-      // Obtener conexión y empezar transacción
+      // Get connection and start transaction
       connection = await db.getConnection()
       await connection.beginTransaction()
 
-      //  Insertar el Cliente
-      const sqlCliente = 'INSERT INTO clientes (nombre, apellido, email, telefono, pais) VALUES (?, ?, ?, ?, ?)'
-      const [resultCliente] = await connection.query(sqlCliente, [nombre, apellido, email, telefono, pais])
+      const clientSql = 'INSERT INTO clients (name, last_name, email, phone, country) VALUES (?, ?, ?, ?, ?)'
 
-      //  Obtener el ID generado
-      const id_cliente_nuevo = resultCliente.insertId
+      const [clientResult] = await connection.query(clientSql, [name, lastName, email, phone, country])
 
-      // Insertar el Pago
-      const sqlPago =
-        'INSERT INTO pagos (id_cliente, id_plan, monto, comprobante_url, metodo_pago, fecha_pago) VALUES (?, ?, ?, ?, ?, NOW())'
-      await connection.query(sqlPago, [id_cliente_nuevo, id_plan, monto, comprobante, metodo_pago])
-      //insertar platsforma y se crea la cuenta solo faltaria que se le asigne usuario y contraseña al comprobar el pago
-      const sqlCuenta = `
-      INSERT INTO cuentas_fondeo 
-      (id_cliente, id_plan, plataforma, fecha_asignacion, enviado) 
+      const newClientId = clientResult.insertId
+
+      // Insert Payment
+      const paymentSql =
+        'INSERT INTO payments (client_id, plan_id, receipt_url, payment_method, payment_date) VALUES (?, ?, ?, ?, NOW())'
+      await connection.query(paymentSql, [newClientId, planId, receiptUrl, paymentMethod])
+
+      // Insert platform; the account is created, but username and password
+      // assignment is pending payment verification.
+      const accountSql = `
+      INSERT INTO funding_accounts 
+      (client_id, plan_id, platform, assignment_date, sent) 
       VALUES (?, ?, ?, NOW(), 0)`
 
-      await connection.query(sqlCuenta, [id_cliente_nuevo, id_plan, plataforma])
+      await connection.query(accountSql, [newClientId, planId, platform])
 
       await connection.commit()
 
-      return { success: true, id: id_cliente_nuevo }
+      return { success: true, id: newClientId }
     } catch (error) {
-      // Si algo sale mal, revertimos todo lo que se haya hecho
+      // If something goes wrong, roll back all changes
       if (connection) await connection.rollback()
-
-      console.error('Error en regisClient:', error)
-      throw error // Re-lanzamos para que el controlador lo maneje
+      throw error // Re-throw so the controller can handle it
     } finally {
-      // Importante: Siempre liberar la conexión al pool
+      // Always release the connection back to the pool
       if (connection) connection.release()
     }
   }
 }
+
 export default Client
