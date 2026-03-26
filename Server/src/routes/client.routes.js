@@ -1,11 +1,13 @@
 import { Router } from 'express'
-import { registerClient } from '../controllers/client.controller.js'
+import { getRegistrationOptions, registerClient } from '../controllers/client.controller.js'
 import createUploadMiddleware from '../middleware/upload.middleware.js'
 
 const router = Router()
 
-const uploadProduct = createUploadMiddleware('products')
+const uploadProduct = createUploadMiddleware('clients')
 
-router.post('/register-client', uploadProduct.single('image'), registerClient)
+router.get('/registration/options', getRegistrationOptions)
+
+router.post('/registration', uploadProduct.single('image'), registerClient)
 
 export default router
