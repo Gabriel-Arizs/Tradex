@@ -23,6 +23,6 @@ app.set('trust proxy', true)
 
 // --- RUTAS ---
 app.use('/Users', routesUsuario)
-app.use('/clients', routesClients)
+app.use('/api/clients', routesClients)
 
 export default app
