@@ -4,8 +4,44 @@ import BenefitItem from '../components/ui/BenefitItem'
 import Button from '../components/ui/Button'
 import Label from '../components/ui/Label'
 import SelectField from '../components/ui/SelectField'
+import { useForm, useWatch } from 'react-hook-form'
+import { useGetRegistrationOptions, useRegisterClient } from '../hooks/useClients'
+import { useRef } from 'react'
 
 const RegistrationPage = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors }
+  } = useForm()
+
+  const { mutateAsync: registerClient } = useRegisterClient()
+  const {
+    data: { plans, brokers },
+    isLoading: loadingOptions
+  } = useGetRegistrationOptions()
+
+  const imageInputRef = useRef(null)
+  register('image', { required: 'El comprobante es obligatorio' })
+
+  // Observa el archivo para mostrar el nombre en el botón
+  const imageFile = useWatch({ control, name: 'image' })
+
+  const handleClick = () => {
+    imageInputRef.current?.click()
+  }
+
+  const handleFileChange = e => {
+    const file = e.target.files[0]
+    if (file) setValue('image', file)
+  }
+
+  const onSubmit = handleSubmit(data => {
+    registerClient(data)
+  })
+
   return (
     <section className='py-24 px-6 lg:px-10 grow flex items-center justify-center bg-slate-950'>
       <div className='max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch'>
@@ -17,35 +53,66 @@ const RegistrationPage = () => {
               <p className='text-slate-400'>Comienza tu viaje con herramientas profesionales de grado institucional.</p>
             </div>
 
-            <form className='space-y-5' onSubmit={e => e.preventDefault()}>
+            <form className='space-y-5' onSubmit={onSubmit}>
               <SelectField
-                label='Eligé tu plan'
-                placeholder='Selecciona un plan'
+                name='planId'
+                register={register}
+                validation={{ required: 'Debes elegir un plan' }}
+                error={errors.planId}
+                label='Elige tu plan'
+                placeholder={loadingOptions ? 'Cargando...' : 'Selecciona un plan'}
                 icon={<UserRound size={24} />}
-                options={[
-                  { id: 1, label: 'Plan 1', value: 'plan1' },
-                  { id: 2, label: 'Plan 2', value: 'plan2' },
-                  { id: 3, label: 'Plan 3', value: 'plan3' }
-                ]}
+                options={plans.map(p => ({
+                  id: p.id,
+                  label: p.name,
+                  value: p.id
+                }))}
               />
 
               <SelectField
+                name='broker'
+                validation={{ required: 'Debes elegir un broker' }}
+                error={errors.broker}
+                register={register}
                 label='Elige tu broker'
-                placeholder='Selecciona tu broker'
+                placeholder={loadingOptions ? 'Cargando...' : 'Selecciona tu broker'}
                 icon={<ChartNoAxesCombined size={24} />}
-                options={[
-                  { id: 1, label: 'Broker 1', value: 'broker1' },
-                  { id: 2, label: 'Broker 2', value: 'broker2' },
-                  { id: 3, label: 'Broker 3', value: 'broker3' }
-                ]}
+                options={brokers.map(b => ({
+                  id: b.id,
+                  label: b.name,
+                  value: b.id
+                }))}
               />
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <InputField label='Nombre' icon={<UserRound size={24} />} placeholder='Ej. Juan' />
-                <InputField label='Apellido' icon={<UserRound size={24} />} placeholder='Ej. Pérez' />
+                <InputField
+                  name='name'
+                  register={register}
+                  validation={{ required: 'Debes ingresar tu nombre' }}
+                  error={errors.name}
+                  label='Nombre'
+                  icon={<UserRound size={24} />}
+                  placeholder='Ej. Juan'
+                />
+                <InputField
+                  name='lastName'
+                  register={register}
+                  validation={{ required: 'Debes ingresar tu apellido' }}
+                  error={errors.lastName}
+                  label='Apellido'
+                  icon={<UserRound size={24} />}
+                  placeholder='Ej. Pérez'
+                />
               </div>
 
               <InputField
+                name='email'
+                register={register}
+                validation={{
+                  required: 'Debes ingresar tu correo',
+                  pattern: { value: /^\S+@\S+$/i, message: 'Correo inválido' }
+                }}
+                error={errors.email}
                 label='Correo electrónico'
                 icon={<Mail size={24} />}
                 type='email'
@@ -53,15 +120,44 @@ const RegistrationPage = () => {
               />
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <InputField label='Telefono' icon={<UserRound size={24} />} placeholder='44 1234 5678' />
-                <InputField label='Pais' icon={<UserRound size={24} />} placeholder='Ej. Argentina' />
+                <InputField
+                  name='phone'
+                  register={register}
+                  validation={{ required: 'Debes ingresar tu teléfono' }}
+                  error={errors.phone}
+                  label='Teléfono'
+                  icon={<UserRound size={24} />}
+                  placeholder='44 1234 5678'
+                />
+                <InputField
+                  name='country'
+                  register={register}
+                  validation={{ required: 'Debes ingresar tu país' }}
+                  error={errors.country}
+                  label='País'
+                  icon={<UserRound size={24} />}
+                  placeholder='Ej. Argentina'
+                />
               </div>
 
               <div className='flex flex-col items-start gap-2'>
                 <Label>Sube tu comprobante</Label>
-                <Button className='ml-1' type='button'>
-                  Subir archivo
+
+                {/* Input oculto, lo activa el botón */}
+                <input
+                  ref={imageInputRef}
+                  type='file'
+                  accept='image/*,application/pdf'
+                  className='hidden'
+                  onChange={handleFileChange}
+                />
+
+                <Button className='ml-1' type='button' onClick={handleClick}>
+                  {imageFile ? `📎 ${imageFile.name}` : 'Subir archivo'}
                 </Button>
+
+                {errors.image && <span className='text-xs text-red-400 ml-1'>{errors.image.message}</span>}
+                {imageFile && <span className='text-xs text-emerald-400 ml-1'>✓ Archivo listo para enviar</span>}
               </div>
 
               <div className='flex items-start gap-3'>
@@ -71,11 +167,11 @@ const RegistrationPage = () => {
                   className='mt-1 rounded border-slate-700 bg-slate-900 text-primary focus:ring-primary'
                 />
                 <label htmlFor='terms' className='text-xs text-slate-400 leading-relaxed'>
-                  Al registrarme, acepto los{' '}
+                  Al registrarme, acepto los
                   <a className='text-primary hover:underline' href='#'>
                     Términos de Servicio
-                  </a>{' '}
-                  y la{' '}
+                  </a>
+                  y la
                   <a className='text-primary hover:underline' href='#'>
                     Política de Privacidad
                   </a>
@@ -134,7 +230,7 @@ const RegistrationPage = () => {
               role='img'
               aria-label='Stock market financial trading charts'
             />
-            <div className='absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent' />
+            <div className='absolute inset-0 bg-linear-gradient-to-t from-slate-950 via-transparent to-transparent' />
             <div className='absolute bottom-4 left-4 right-4 p-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg'>
               <div className='flex items-center justify-between'>
                 <div className='flex flex-col'>
